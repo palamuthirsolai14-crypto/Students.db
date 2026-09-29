@@ -1,0 +1,136 @@
+class Student:
+
+    # Constructor
+    def __init__(self, sid, name, marks):
+        self.sid = sid
+        self.name = name
+        self.marks = marks
+
+    # Method to find grade
+    def find_grade(self):
+        if self.marks >= 90:
+            return "A+"
+        elif self.marks >= 80:
+            return "A"
+        elif self.marks >= 70:
+            return "B"
+        elif self.marks >= 60:
+            return "C"
+        elif self.marks >= 50:
+            return "D"
+        else:
+            return "F"
+
+    # Method to find pass/fail
+    def status(self):
+        if self.marks >= 50:
+            return "PASS"
+        else:
+            return "FAIL"
+
+    # Method to display student details
+    def show_result(self):
+        print("\n--------------------------------")
+        print("Student ID :", self.sid)
+        print("Name       :", self.name)
+        print("Marks      :", self.marks)
+        print("Grade      :", self.find_grade())
+        print("Status     :", self.status())
+        print("--------------------------------")
+
+
+# List to store student objects
+students = []
+
+# Main Menu
+while True:
+
+    print("\n========== STUDENT GRADE MANAGEMENT ==========")
+    print("1. Add New Student")
+    print("2. View Student Report")
+    print("3. Exit")
+    print("==============================================")
+
+    # Exception Handling
+    try:
+        choice = int(input("Enter your choice: "))
+
+        # Add Student
+        if choice == 1:
+
+            try:
+                n = int(input("How many students do you want to add? "))
+
+                # For Loop
+                for i in range(n):
+
+                    print("\nEnter Student", i + 1, "Details")
+
+                    sid = input("Student ID : ")
+
+                    # Validate Name
+                    while True:
+                        name = input("Student Name : ")
+
+                        if name.replace(" ", "").isalpha():
+                            break
+                        else:
+                            print("Name should contain only alphabets.")
+
+                    # Validate Marks
+                    while True:
+
+                        try:
+                            marks = int(input("Marks (0-100): "))
+
+                            if 0 <= marks <= 100:
+                                break
+                            else:
+                                print("Marks should be between 0 and 100.")
+
+                        except ValueError:
+                            print("Please enter numeric marks only.")
+
+                    # Object Creation
+                    student = Student(sid, name, marks)
+
+                    # Store object in list
+                    students.append(student)
+
+                print("\nStudent record(s) added successfully.")
+
+            except ValueError:
+                print("Enter a valid number.")
+
+        # Display Students
+        elif choice == 2:
+
+            if len(students) == 0:
+                print("\nNo student records available.")
+
+            else:
+
+                print("\n========== STUDENT REPORT ==========")
+
+                total = 0
+
+                # For Loop
+                for student in students:
+                    student.show_result()
+                    total += student.marks
+
+                average = total / len(students)
+
+                print("\nTotal Students :", len(students))
+                print("Average Marks  :", round(average, 2))
+
+        # Exit
+        elif choice == 3:
+            print("\nThank you for using Student Grade Management System.")
+            break
+
+        else:
+            print("Invalid choice. Please select 1, 2 or 3.")
+
+    except ValueError:
+        print("Please enter numbers only.")
